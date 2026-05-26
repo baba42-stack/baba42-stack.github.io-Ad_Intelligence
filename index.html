@@ -210,6 +210,10 @@ const COLUMNS = [
     if(!r._affinityLink) return '<span style="color:var(--mute)">—</span>';
     return `<a href="${escapeHtml(r._affinityLink)}" target="_blank" onclick="event.stopPropagation()" style="color:#5DADE2;font-size:13px;text-decoration:none;white-space:nowrap" title="Verified sport affinity reference">🔗 View</a>`;
   }},
+  { key:"_affinityLink", label:"Affinity Ref", width:90, render:r => {
+    if(!r._affinityLink) return '<span style="color:var(--mute)">—</span>';
+    return `<a href="${escapeHtml(r._affinityLink)}" target="_blank" onclick="event.stopPropagation()" style="color:#5DADE2;font-size:13px;text-decoration:none;white-space:nowrap" title="Verified sport affinity reference">🔗 View</a>`;
+  }},
   { key:"Final Score (Effective)", label:"Sales Score", render:r => `<span class="score ${pclass(r.Priority)}">${r["Final Score (Effective)"]}</span>` },
   { key:"_revenue",  label:"Revenue Potential", render:r => {
     const rv = (r["Revenue Potential Override"]||r["Revenue Potential (Auto)"]||"");
@@ -297,6 +301,8 @@ const CONTRACTED_TOUR_MAP = {
   "US Women's Open": "US Women's Open",
   "US Senior Open": "US Senior Open",
   "US Women's Senior Open": "US Senior Women's Open",
+  // India A Tri-Series
+  "India A Tri-Series (SL)": "India A Tri-Series (SL)",
 };
 
 /* ========= Build join-friendly rows ========= */
@@ -390,6 +396,8 @@ function buildBrandRows(detailRows){
     // FanCode / Competitor Activity: Yes if any Yes
     if(r["FanCode History"]==="Yes") g["FanCode History"]="Yes";
     if(r["Competitor Activity"]==="Yes") g["Competitor Activity"]="Yes";
+    if(r._affinityLink && !g._affinityLink) g._affinityLink=r._affinityLink;
+    if(r._contractedTour) r._contractedTour.split(",").forEach(t=>{const tt=t.trim();if(tt)g._contractedTours.add(tt);});
     if(r._affinityLink && !g._affinityLink) g._affinityLink=r._affinityLink;
     if(r._contractedTour) r._contractedTour.split(",").forEach(t=>{const tt=t.trim();if(tt)g._contractedTours.add(tt);});
     if(r._affinityLink && !g._affinityLink) g._affinityLink=r._affinityLink;
